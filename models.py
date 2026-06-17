@@ -4,7 +4,7 @@ First-draft implementations for filtering, sorting, totals, and helpers.
 """
 
 from __future__ import annotations
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Optional, Any
 import uuid
 
@@ -172,7 +172,7 @@ class Transaction:
                         self._add_line(key=itm.id, name=itm.name, unit_price=float(itm.price), quantity=qty, item_obj=itm)
                 else:
                     continue
-        self.created_at = created_at or datetime.utcnow()
+        self.created_at = created_at or datetime.now(timezone.utc)
         self.total = float(total) if total is not None else self.compute_total()
 
     def _add_line(self, key: str, name: str, unit_price: float, quantity: int = 1, item_obj: Optional[FoodItem] = None) -> None:
